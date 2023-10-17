@@ -5,7 +5,6 @@ export default class App extends Component{
   render(){
 
     let nome = "Matheus";
-    let img = "https://sujeitoprogramador.com/steve.png";
 
     return(
       <View>
@@ -15,9 +14,24 @@ export default class App extends Component{
           Sujeito Programador
         </Text>
 
-        <Image source={{ uri: img }} style={{ width: 300, height: 300 }} />
+        <Text style={{ fontSize: 30 }}> {nome} </Text>
 
-        <Text style={{ fontSize: 30 }}>{nome}</Text>
+        <Jobs largura={100} altura={200} fulano="Matheus" />
+        
+      </View>
+    );
+  }
+}
+
+class Jobs extends Component{
+  render() {
+
+    let img = "https://sujeitoprogramador.com/steve.png";
+
+    return (
+      <View>
+        <Image source={{uri: img}} style={{ width: this.props.largura, height: this.props.altura }} />
+        <Text> {this.props.fulano} </Text>
       </View>
     );
   }
