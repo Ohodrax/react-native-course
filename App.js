@@ -1,28 +1,42 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, FlatList } from 'react-native';
+import { View, Text, StyleSheet } from 'react-native';
 
-import Pessoas from './src/Pessoas';
+import { Picker } from "@react-native-picker/picker";
 
 export default class App extends Component{
 
-  constructor(props) {
+  constructor(props){
     super(props);
 
     this.state = {
-      feed: [
-        {id: '1', nome: 'Rodrigo', idade: 20, email: 'rodrigo@gmail.com'},
-        {id: '2', nome: 'Victor', idade: 89, email: 'victor@gmail.com'},
-        {id: '3', nome: 'Henrique', idade: 39, email: 'henrique@gmail.com'},
-        {id: '4', nome: 'Paulo', idade: 15, email: 'paulo@gmail.com'},
-        {id: '5', nome: 'Jose', idade: 75, email: 'jose@gmail.com'},
+      pizza: 0,
+      pizzas: [
+        {key: 1, nome: 'Calabresa', valor: 35.90},
+        {key: 2, nome: 'Bauru', valor: 50},
+        {key: 3, nome: '4 Queijos', valor: 45.50},
+        {key: 3, nome: 'Portuguesa', valor: 65.90},
+        {key: 3, nome: 'Baiana', valor: 59.99},
       ]
-    };
+    }
   }
   
   render(){
+
+    let pizzasItem = this.state.pizzas.map( (v, k) => {
+      return <Picker.Item key={k} value={k} label={v.nome}/>
+    })
+
     return(
       <View style={styles.container}>
-        <FlatList data={this.state.feed} keyExtractor={(item) => item.id} renderItem={ ({item}) => <Pessoas data={item} /> }/>
+        <Text style={styles.logo}>Menu Pizza</Text>
+
+        <Picker selectedValue={this.state.pizza} onValueChange={ (itemValue, itemIndex) => this.setState({pizza: itemValue})} >
+          {pizzasItem}
+        </Picker>
+
+        <Text style={styles.pizzas}>Você escolheu: {this.state.pizzas[this.state.pizza].nome}</Text>
+        <Text style={styles.pizzas}>R$: {this.state.pizzas[this.state.pizza].valor.toFixed(2)}</Text>
+        
       </View>
     );
   }
@@ -31,6 +45,17 @@ export default class App extends Component{
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1
+    flex: 1,
+    marginTop: 20
+  },
+  logo: {
+    textAlign: 'center',
+    fontSize: 28,
+    fontWeight: 'bold'
+  },
+  pizzas: {
+    marginTop: 15,
+    fontSize: 28,
+    textAlign: 'center'
   }
 })
