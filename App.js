@@ -1,5 +1,5 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet, Switch } from 'react-native';
 
 import Slider from "react-native-slider";
 
@@ -9,17 +9,16 @@ export default class App extends Component{
     super(props);
 
     this.state = {
-      valor: 10
+      status: false
     };
   }
   
   render(){
     return(
       <View style={styles.container}>
+        <Switch value={this.state.status} onValueChange={(valorSwitch) => this.setState({status: valorSwitch})} thumbColor={'#FF0000'} />
 
-        <Slider minimumValue={0} maximumValue={100} onValueChange={(valorSelecionado) => {this.setState({valor: valorSelecionado})}} value={this.state.valor} />
-
-        <Text style={{textAlign: 'center', fontSize: 30}}>{this.state.valor.toFixed(0)}</Text>
+        <Text style={{textAlign: 'center', fontSize: 30}}>{this.state.status ? "Ativo" : "Inativo" }</Text>
       </View>
     );
   }
