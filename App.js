@@ -1,8 +1,10 @@
 import React, { Component } from "react";
-import { View, Text, StyleSheet, Switch, TextInput, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Switch, TextInput, TouchableOpacity, Image, FlatList } from 'react-native';
 
-import { Picker } from "@react-native-picker/picker";
-import Slider from "react-native-slider"
+// import { Picker } from "@react-native-picker/picker";
+// import Slider from "react-native-slider"
+
+import Lista from "./src/Lista";
 
 export default class App extends Component{
 
@@ -10,58 +12,71 @@ export default class App extends Component{
     super(props);
 
     this.state = {
-        nome: "",
-        idade: "",
-        sexo: 0,
-        limite: 0,
-        estudante: true,
-        sexoOpt: [
-          {key: 0, nome: "Selecionar"},
-          {key: 1, nome: "Masculino"},
-          {key: 2, nome: "Feminino"},
-        ]
-    };
-
-    this.enviarDados = this.enviarDados.bind(this);
-  }
-
-  enviarDados() {
-    if (this.state.nome == "" || this.state.idade == "" || this.state.sexo == 0 || this.state.limite == 0) {
-      alert("Um ou mais campos estão inválidos.");
-      return;
+      feed: [
+        {
+          id: '1', 
+          nome: 'Lucas Silva', 
+          descricao: 'Mais um dia de muitos bugs :)', 
+          imgperfil: 'https://sujeitoprogramador.com/instareact/fotoPerfil1.png', 
+          imgPublicacao: 'https://sujeitoprogramador.com/instareact/foto1.png',  
+          likeada: false, 
+          likers: 0
+         },
+        {
+          id: '2', 
+          nome: 'Matheus', 
+          descricao: 'Isso sim é ser raiz!!!!!', 
+          imgperfil: 'https://sujeitoprogramador.com/instareact/fotoPerfil2.png', 
+          imgPublicacao: 'https://sujeitoprogramador.com/instareact/foto2.png', 
+          likeada: false, 
+          likers: 0
+        },
+        {
+          id: '3', 
+          nome: 'Jose Augusto', 
+          descricao: 'Bora trabalhar Haha', 
+          imgperfil: 'https://sujeitoprogramador.com/instareact/fotoPerfil3.png', 
+          imgPublicacao: 'https://sujeitoprogramador.com/instareact/foto3.png',  
+          likeada: false, 
+          likers: 3
+        },
+        {
+          id: '4', 
+          nome: 'Gustavo Henrique', 
+          descricao: 'Isso sim que é TI!', 
+          imgperfil: 'https://sujeitoprogramador.com/instareact/fotoPerfil1.png', 
+          imgPublicacao: 'https://sujeitoprogramador.com/instareact/foto4.png', 
+          likeada: false, 
+          likers: 1
+        },
+        {
+          id: '5', 
+          nome: 'Guilherme', 
+          descricao: 'Boa tarde galera do insta...', 
+          imgperfil: 'https://sujeitoprogramador.com/instareact/fotoPerfil2.png', 
+          imgPublicacao: 'https://sujeitoprogramador.com/instareact/foto5.png',
+          likeada: false, 
+          likers: 32
+        }
+      ]
     }
-
-    alert(`Seus dados foram cadastrados! \n \nDados: \n\nNome: ${this.state.nome} \nIdade: ${this.state.idade} \nSexo: ${this.state.sexoOpt[this.state.sexo].nome} \nLimite Desejado: R$ ${this.state.limite.toFixed(2)} \nÉ estudante? ${this.state.estudante ? "Sim" : "Não"}`);
   }
-  
+
   render(){
-
-    let generoItem = this.state.sexoOpt.map( (v, k) => {
-      return <Picker.Item key={k} value={k} label={v.nome} />
-    })
-
     return(
       <View style={styles.container}>
-        <TextInput onChangeText={ (valorNome) => this.setState({nome: valorNome}) } value={ this.state.nome } placeholder="Nome"/>
 
-        <TextInput onChangeText={ (valorIdade) => this.setState({idade: valorIdade }) } value={ +this.state.idade } placeholder="Idade" keyboardType="numeric"/>
+        <View style={styles.header}>
+          <TouchableOpacity>
+            <Image source={require('./src/img/logo.png')} style={styles.logo} />
+          </TouchableOpacity>
+          <TouchableOpacity>
+            <Image source={require('./src/img/send.png')} style={styles.send} />
+          </TouchableOpacity>
+        </View>
 
-        <Text>
-          É estudante? 
-          <Switch value={this.state.estudante} onValueChange={ (valorEstudante) => this.setState({estudante: valorEstudante}) } />
-          {this.state.estudante ? "Sim" : "Não"}
-        </Text>
+        <FlatList showsHorizontalScrollIndicator={false} keyExtractor={(item) => item.id} data={this.state.feed} renderItem={ ({item}) => <Lista data={item} /> } />
         
-        <Text>Limite desejado: R$ {this.state.limite.toFixed(2)}</Text>
-        <Slider minimumValue={0} maximumValue={10000} onValueChange={ (valorLimite) => this.setState({limite: valorLimite}) } value={this.state.limite}/>
-
-        <Picker selectedValue={this.state.sexo} onValueChange={ (itemValue, itemIndex) => this.setState({sexo: itemValue})}>
-          {generoItem}
-        </Picker>
-
-        <TouchableOpacity onPress={() => this.enviarDados()}>
-          <Text>Cadastrar</Text>
-        </TouchableOpacity>
       </View>
     );
   }
@@ -69,7 +84,21 @@ export default class App extends Component{
 
 const styles = StyleSheet.create({
   container: {
-    flex: 1,
-    marginTop: 15
+    flex: 1
+  },
+  header: {
+    height: 45,
+    backgroundColor: '#fff',
+    flexDirection: "row",
+    alignItems: 'center',
+    justifyContent: 'space-between',
+    padding: 5,
+    borderBottomWidth: 0.2,
+    shadowColor: '#000',
+    elevation: 1
+  },
+  send: {
+    width: 23,
+    height: 23
   }
 })
