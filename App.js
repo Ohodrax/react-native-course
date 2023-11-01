@@ -37,7 +37,7 @@ export default class App extends Component{
           descricao: 'Bora trabalhar Haha', 
           imgperfil: 'https://sujeitoprogramador.com/instareact/fotoPerfil3.png', 
           imgPublicacao: 'https://sujeitoprogramador.com/instareact/foto3.png',  
-          likeada: false, 
+          likeada: true, 
           likers: 3
         },
         {
